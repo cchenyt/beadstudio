@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>cc'BeadStudio ✦ 拼豆图纸生成器</title>
+<title>拼豆图纸生成器 ✦ BeadStudio v3</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -513,6 +513,103 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   font-family:var(--fp);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--dark);}
 .step-content{font-size:11px;line-height:1.8;font-weight:700;color:var(--dark);}
 .step-tip{font-size:10px;color:var(--mid);font-weight:600;margin-top:2px;}
+
+/* ══ MOBILE STYLES ══ */
+.mob-tab{flex:1;padding:10px 4px;font-size:11px;font-weight:800;border:none;
+  background:var(--white);border-bottom:2px solid #e8e0f0;cursor:pointer;color:var(--mid);
+  font-family:var(--fb);transition:all .15s;}
+.mob-tab.active{color:var(--dark);border-bottom:3px solid var(--pink);background:var(--pk3);}
+#mobTabs{display:none;flex-shrink:0;}
+.mob-desktop-notice{display:none;}
+
+@media (max-width:767px){
+  /* Base */
+  html,body{overflow:hidden;height:100%;height:100dvh;}
+  .app{height:100dvh;}
+
+  /* Nav: horizontal scroll, compact */
+  nav{padding:0 8px;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;height:44px;}
+  nav::-webkit-scrollbar{display:none;}
+  .cc-name{display:none;}
+  .logo{gap:5px;}
+  .ntab{padding:4px 9px;font-size:10px;}
+  .msg-nav-btn{padding:4px 9px;font-size:10px;}
+  .user-badge{padding:2px 8px;font-size:10px;}
+
+  /* Mobile tab bar visible */
+  #mobTabs{display:flex!important;}
+
+  /* GenView: column layout */
+  #genView.active{
+    display:flex!important;
+    flex-direction:column;
+    height:calc(100dvh - 44px);
+    overflow:hidden;
+  }
+
+  /* Panels: hidden by default, show when mob-show */
+  #genLeft,#genCenter,#genRight{display:none;flex:1;overflow:hidden;}
+  #genLeft.mob-show,#genCenter.mob-show,#genRight.mob-show{display:flex;}
+
+  /* Left panel: scrollable */
+  #genLeft{flex-direction:column;}
+  #genLeft .pscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+
+  /* Center: full height canvas */
+  #genCenter{flex-direction:column;}
+  .cwrap{flex:1;overflow:hidden;touch-action:none;}
+  .ctb{flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:5px 8px;}
+  .ctb::-webkit-scrollbar{display:none;}
+  .sbar{font-size:9px;padding:3px 8px;}
+
+  /* Right panel */
+  #genRight{flex-direction:column;}
+  #genRight .pscroll{flex:1;overflow-y:auto;}
+  #genRight .pfoot{flex-shrink:0;}
+
+  /* Other views */
+  #libView.active,#histView.active{
+    height:calc(100dvh - 44px);overflow-y:auto;
+    display:flex!important;flex-direction:column;
+  }
+  .hist-wrap,.libwrap{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .hist-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+
+  /* Plan view: show notice on mobile */
+  .mob-desktop-notice{
+    display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+    padding:30px 20px;text-align:center;font-size:13px;font-weight:700;color:var(--mid);
+    line-height:2;background:var(--white);
+  }
+  .mob-desktop-notice small{font-size:11px;color:var(--light);}
+  .plan-shell{display:none!important;}
+
+  /* Modals: full screen */
+  .modal-ov{align-items:flex-end;}
+  .modal{width:100vw!important;max-height:92dvh!important;border-radius:16px 16px 0 0!important;overflow:hidden;}
+  .editor-modal{max-height:100dvh!important;border-radius:0!important;}
+  .msg-modal{max-height:90dvh!important;border-radius:16px 16px 0 0!important;}
+  .trash-modal{border-radius:16px 16px 0 0!important;}
+
+  /* Account overlay */
+  #accountOverlay{align-items:flex-end;}
+  .acct-box{border-radius:20px 20px 0 0;width:100vw;max-height:90dvh;overflow-y:auto;padding:20px 16px;}
+
+  /* Splash */
+  .splash-grid{grid-template-columns:repeat(6,1fr);gap:5px;}
+  .sbead{width:36px;height:36px;}
+  .splash-title{font-size:16px;}
+
+  /* Cards */
+  .card{border-radius:8px;}
+  .gal-grid{grid-template-columns:repeat(4,1fr);}
+
+  /* User menu */
+  .user-menu{right:8px!important;}
+
+
+}
+
 </style>
 </head>
 <body>
@@ -561,8 +658,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 
 <!-- GENERATOR -->
 <div id="genView" class="view active">
+  <!-- MOBILE TABS -->
+  <div id="mobTabs" style="display:none">
+    <button class="mob-tab active" data-mob="genLeft">⚙️ 参数</button>
+    <button class="mob-tab" data-mob="genCenter">🎨 图纸</button>
+    <button class="mob-tab" data-mob="genRight">📋 备料</button>
+  </div>
   <!-- LEFT -->
-  <div class="panel">
+  <div class="panel" id="genLeft">
    <div class="pscroll">
 <div class="card">
       <div class="ct">▸ 图片库</div>
@@ -652,7 +755,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   </div>
 
   <!-- CENTER -->
-  <div class="cpanel">
+  <div class="cpanel" id="genCenter">
     <div class="ctb">
       <button class="tb" id="ziBtn">＋</button>
       <button class="tb" id="zoBtn">－</button>
@@ -674,7 +777,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
       <button class="tb" id="replaceColorBtn" title="点击画布上的颜色进行替换">🎨 换色</button>
       <button class="tb" style="background:var(--mint)" id="expPng">↓ 导出PNG</button>
     </div>
-    <div class="cwrap" id="cw">
+    <div class="cwrap" id="cw" style="position:relative;">
       <canvas id="boardCanvas" style="display:none"></canvas>
       <div class="emp" id="emp"><div class="eg" id="eg"></div><div class="etxt">上传图片<br>开始生成 ✦</div></div>
       <canvas id="bc" style="display:none"></canvas>
@@ -685,7 +788,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   </div>
 
   <!-- RIGHT -->
-  <div class="panel">
+  <div class="panel" id="genRight">
    <div class="pscroll">
     <div class="ct" style="font-family:var(--fp);font-size:7px;color:var(--mid)">▸ 备料清单</div>
     <div id="totpill" style="display:none" class="totpill"></div>
@@ -762,6 +865,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 
 <!-- BOARD PLANNER -->
 <div id="planView" class="view">
+  <div class="mob-desktop-notice">⬚ 豆板规划在电脑上体验更好，建议用电脑打开 💻<br><small>手机端可正常使用图纸生成、历史记录和留言板功能</small></div>
   <div class="plan-shell">
     <!-- Left: select patterns -->
     <div class="plan-left">
@@ -879,12 +983,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
     <span style="font-size:10px;font-weight:700" id="crToLabel">选择新颜色</span>
   </div>
   <div id="crColorGrid" class="cr-grid"></div>
-  <div style="display:flex;gap:6px;margin-top:8px">
-    <div class="togrow" id="crAllToggle" style="cursor:pointer;flex:1">
+  <div style="display:flex;gap:6px;margin-top:8px;align-items:center">
+    <div class="togrow" id="crAllToggle" style="cursor:pointer;flex:1" title="取消勾选=只换点击的那个格子">
       <div class="togbox on" id="crAllBox">✓</div>
-      <span style="font-size:10px">替换所有同色格</span>
+      <span style="font-size:10px" id="crModeLabel">替换所有同色格</span>
     </div>
     <button class="btn btn-sm btn-pink" style="width:auto" onclick="applyColorReplace()">✓ 替换</button>
+  </div>
+  <div id="crUndoRow" style="display:none;gap:6px;margin-top:6px;padding-top:6px;border-top:1px solid #eee">
+    <button class="btn btn-xs" style="flex:1" onclick="crUndo()">↩ 撤销替换</button>
+    <button class="btn btn-xs" style="flex:1" id="crRedoBtn" onclick="crRedo()" disabled>↪ 恢复</button>
   </div>
 </div>
 <div id="tagPickerPopup">
@@ -1923,6 +2031,103 @@ async function doExpList(){
   font-family:var(--fp);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--dark);}
 .step-content{font-size:11px;line-height:1.8;font-weight:700;color:var(--dark);}
 .step-tip{font-size:10px;color:var(--mid);font-weight:600;margin-top:2px;}
+
+/* ══ MOBILE STYLES ══ */
+.mob-tab{flex:1;padding:10px 4px;font-size:11px;font-weight:800;border:none;
+  background:var(--white);border-bottom:2px solid #e8e0f0;cursor:pointer;color:var(--mid);
+  font-family:var(--fb);transition:all .15s;}
+.mob-tab.active{color:var(--dark);border-bottom:3px solid var(--pink);background:var(--pk3);}
+#mobTabs{display:none;flex-shrink:0;}
+.mob-desktop-notice{display:none;}
+
+@media (max-width:767px){
+  /* Base */
+  html,body{overflow:hidden;height:100%;height:100dvh;}
+  .app{height:100dvh;}
+
+  /* Nav: horizontal scroll, compact */
+  nav{padding:0 8px;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;height:44px;}
+  nav::-webkit-scrollbar{display:none;}
+  .cc-name{display:none;}
+  .logo{gap:5px;}
+  .ntab{padding:4px 9px;font-size:10px;}
+  .msg-nav-btn{padding:4px 9px;font-size:10px;}
+  .user-badge{padding:2px 8px;font-size:10px;}
+
+  /* Mobile tab bar visible */
+  #mobTabs{display:flex!important;}
+
+  /* GenView: column layout */
+  #genView.active{
+    display:flex!important;
+    flex-direction:column;
+    height:calc(100dvh - 44px);
+    overflow:hidden;
+  }
+
+  /* Panels: hidden by default, show when mob-show */
+  #genLeft,#genCenter,#genRight{display:none;flex:1;overflow:hidden;}
+  #genLeft.mob-show,#genCenter.mob-show,#genRight.mob-show{display:flex;}
+
+  /* Left panel: scrollable */
+  #genLeft{flex-direction:column;}
+  #genLeft .pscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+
+  /* Center: full height canvas */
+  #genCenter{flex-direction:column;}
+  .cwrap{flex:1;overflow:hidden;touch-action:none;}
+  .ctb{flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:5px 8px;}
+  .ctb::-webkit-scrollbar{display:none;}
+  .sbar{font-size:9px;padding:3px 8px;}
+
+  /* Right panel */
+  #genRight{flex-direction:column;}
+  #genRight .pscroll{flex:1;overflow-y:auto;}
+  #genRight .pfoot{flex-shrink:0;}
+
+  /* Other views */
+  #libView.active,#histView.active{
+    height:calc(100dvh - 44px);overflow-y:auto;
+    display:flex!important;flex-direction:column;
+  }
+  .hist-wrap,.libwrap{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .hist-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+
+  /* Plan view: show notice on mobile */
+  .mob-desktop-notice{
+    display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+    padding:30px 20px;text-align:center;font-size:13px;font-weight:700;color:var(--mid);
+    line-height:2;background:var(--white);
+  }
+  .mob-desktop-notice small{font-size:11px;color:var(--light);}
+  .plan-shell{display:none!important;}
+
+  /* Modals: full screen */
+  .modal-ov{align-items:flex-end;}
+  .modal{width:100vw!important;max-height:92dvh!important;border-radius:16px 16px 0 0!important;overflow:hidden;}
+  .editor-modal{max-height:100dvh!important;border-radius:0!important;}
+  .msg-modal{max-height:90dvh!important;border-radius:16px 16px 0 0!important;}
+  .trash-modal{border-radius:16px 16px 0 0!important;}
+
+  /* Account overlay */
+  #accountOverlay{align-items:flex-end;}
+  .acct-box{border-radius:20px 20px 0 0;width:100vw;max-height:90dvh;overflow-y:auto;padding:20px 16px;}
+
+  /* Splash */
+  .splash-grid{grid-template-columns:repeat(6,1fr);gap:5px;}
+  .sbead{width:36px;height:36px;}
+  .splash-title{font-size:16px;}
+
+  /* Cards */
+  .card{border-radius:8px;}
+  .gal-grid{grid-template-columns:repeat(4,1fr);}
+
+  /* User menu */
+  .user-menu{right:8px!important;}
+
+
+}
+
 </style></head><body><h2>BeadStudio 备料清单</h2><p>${S.brand} | ${S.gridW}×${S.gridH} | ${total}颗</p><table><tr><th>色块</th>${hdrs.map(h=>`<th>${h}</th>`).join('')}</tr>${trs}</table></body></html>`,'application/msword',fn+'.doc');}
 }
 function dlBlob(c,t,n){const b=new Blob([c],{type:t});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;a.click();}
@@ -1942,7 +2147,7 @@ function saveHist(){
     colorCount:mats.length,total:S.gridW*S.gridH,
     topColors:mats.slice(0,6).map(m=>m.bead.h)
   };
-  try{const h=JSON.parse(localStorage.getItem('bead_hist')||'[]');h.unshift(entry);localStorage.setItem('bead_hist',JSON.stringify(h.slice(0,25)));}catch{}
+  try{const h=getHistData();h.unshift(entry);saveHistData(h);}catch{}
 }
 
 let histSelMode=false,histChecked=new Set(),histTagFilter='all',histTimeFilter='all';
@@ -2134,14 +2339,13 @@ function updateHistSelActions(){
 }
 $('histSelBtn').addEventListener('click',()=>{histSelMode=!histSelMode;histChecked.clear();$('histSelBtn').textContent=histSelMode?'✓完成':'☑多选';renderHist();updateHistSelActions();});
 $('histDelSelBtn').addEventListener('click',()=>{
-  let hist=JSON.parse(localStorage.getItem('bead_hist')||'[]');
-  hist=hist.filter(h=>!histChecked.has(h.id));
-  localStorage.setItem('bead_hist',JSON.stringify(hist));
+  const hist=getHistData().filter(h=>!histChecked.has(h.id));
+  saveHistData(hist);
   histChecked.clear();histSelMode=false;$('histSelBtn').textContent='☑多选';
   renderHist();updateHistSelActions();showToast('已删除所选记录');
 });
 $('histCancelSelBtn').addEventListener('click',()=>{histSelMode=false;histChecked.clear();$('histSelBtn').textContent='☑多选';renderHist();updateHistSelActions();});
-$('clearHistBtn').addEventListener('click',()=>{if(confirm('清空全部历史记录？')){localStorage.removeItem('bead_hist');renderHist();}});
+$('clearHistBtn').addEventListener('click',()=>{if(confirm('清空全部历史记录？')){saveHistData([]);renderHist();}});
 
 // ── BOARD PLANNER ──
 
@@ -2611,10 +2815,9 @@ function edRotOk(){rotBase=null;showToast('旋转已应用');}
 // ══════════════════════════════
 // PRODUCT PREVIEW (separate page)
 // ══════════════════════════════);
-$('crAllToggle').addEventListener('click',()=>{crAllMode=!crAllMode;$('crAllBox').classList.toggle('on',crAllMode);$('crAllBox').textContent=crAllMode?'✓':'';});
-
 // ── COLOR REPLACE ──
-let crMode=false,crFromBead=null,crToBead=null,crAllMode=true;
+let crMode=false,crFromBead=null,crToBead=null,crAllMode=true,crClickX=-1,crClickY=-1;
+let crUndoStack=[],crRedoStack=[];
 
 $('replaceColorBtn').addEventListener('click',function(){
   crMode=!crMode;this.classList.toggle('on',crMode);
@@ -2625,6 +2828,7 @@ $('crAllToggle').addEventListener('click',()=>{
   crAllMode=!crAllMode;
   $('crAllBox').classList.toggle('on',crAllMode);
   $('crAllBox').textContent=crAllMode?'✓':'';
+  $('crModeLabel').textContent=crAllMode?'替换所有同色格':'只换点击的那格';
 });
 
 // Click on bead canvas to pick color for replacement
@@ -2636,8 +2840,11 @@ $('bc').addEventListener('click',e=>{
   const cy=Math.floor((e.clientY-rect.top)*scY/cs);
   if(cx<0||cx>=S.gridW||cy<0||cy>=S.gridH)return;
   crFromBead=S.beadData[cy][cx];crToBead=null;
+  crClickX=cx;crClickY=cy;  // store clicked cell
+  // count how many cells have this color
+  const crCount=S.beadData.flat().filter(b=>b.id===crFromBead.id).length;
   $('crFromSwatch').style.background=crFromBead.h;
-  $('crFromLabel').textContent=crFromBead.id+' '+crFromBead.n;
+  $('crFromLabel').textContent=crFromBead.id+' '+(crFromBead.n||'')+' ('+crCount+'格)';
   $('crToSwatch').style.background='#eee';$('crToLabel').textContent='选择新颜色';
   // Build color grid
   const grid=$('crColorGrid');grid.innerHTML='';
@@ -2662,17 +2869,45 @@ $('bc').addEventListener('click',e=>{
 function applyColorReplace(){
   if(!crFromBead||!crToBead){showToast('请选择原色和新色');return;}
   if(!S.beadData){return;}
+  // Save snapshot for undo
+  crUndoStack.push(S.beadData.map(r=>r.map(b=>({...b}))));
+  crRedoStack=[];
   let count=0;
-  for(let y=0;y<S.gridH;y++) for(let x=0;x<S.gridW;x++){
-    if(S.beadData[y][x].id===crFromBead.id){
-      S.beadData[y][x]=crToBead;count++;
-      if(!crAllMode)break;
+  if(crAllMode){
+    for(let y=0;y<S.gridH;y++) for(let x=0;x<S.gridW;x++){
+      if(S.beadData[y][x].id===crFromBead.id){S.beadData[y][x]=crToBead;count++;}
     }
-    if(!crAllMode&&count>0)break;
+  }else{
+    // Only replace the exact clicked cell
+    if(crClickX>=0&&crClickY>=0&&crClickY<S.gridH&&crClickX<S.gridW){
+      S.beadData[crClickY][crClickX]=crToBead;count=1;
+    }
   }
   renderCanvas();renderMats();
   $('colorReplacePopup').classList.remove('show');
-  showToast(`已替换 ${count} 格 ${crFromBead.id} → ${crToBead.id}`);
+  // Show undo row
+  $('crUndoRow').style.display='flex';
+  $('crRedoBtn').disabled=true;
+  $('colorReplacePopup').classList.add('show');
+  const mode=crAllMode?'全部':'单格';
+  showToast(`已替换 ${count} 格（${mode}）· 可撤销`);
+}
+function crUndo(){
+  if(!crUndoStack.length)return;
+  crRedoStack.push(S.beadData.map(r=>r.map(b=>({...b}))));
+  S.beadData=crUndoStack.pop();
+  renderCanvas();renderMats();
+  $('crRedoBtn').disabled=false;
+  showToast('已撤销替换');
+  if(!crUndoStack.length)$('crUndoRow').style.display='none';
+}
+function crRedo(){
+  if(!crRedoStack.length)return;
+  crUndoStack.push(S.beadData.map(r=>r.map(b=>({...b}))));
+  S.beadData=crRedoStack.pop();
+  renderCanvas();renderMats();
+  $('crRedoBtn').disabled=crRedoStack.length===0;
+  showToast('已恢复替换');
 }
 
 
@@ -3039,6 +3274,77 @@ function showDeviceTutorial(){
   $('userMenu').classList.remove('show');
   $('tutModal').classList.add('show');
 }
+
+// ══ MOBILE ══
+const isMob=()=>window.innerWidth<=767;
+
+// Mobile tab switching
+function initMobTabs(){
+  if(!isMob())return;
+  // Show first tab by default
+  ['genLeft','genCenter','genRight'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.classList.remove('mob-show');
+  });
+  document.getElementById('genLeft')?.classList.add('mob-show');
+  document.querySelectorAll('.mob-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.mob-tab[data-mob="genLeft"]')?.classList.add('active');
+}
+
+document.querySelectorAll('.mob-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(!isMob())return;
+    const target=btn.dataset.mob;
+    ['genLeft','genCenter','genRight'].forEach(id=>{
+      document.getElementById(id)?.classList.remove('mob-show');
+    });
+    document.getElementById(target)?.classList.add('mob-show');
+    document.querySelectorAll('.mob-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// After generate: switch to canvas tab on mobile
+// Watch for bc canvas becoming visible (generate completed)
+new MutationObserver(()=>{
+  if($('bc').style.display!=='none'&&isMob()){
+    ['genLeft','genCenter','genRight'].forEach(id=>document.getElementById(id)?.classList.remove('mob-show'));
+    document.getElementById('genCenter')?.classList.add('mob-show');
+    document.querySelectorAll('.mob-tab').forEach(b=>b.classList.toggle('active',b.dataset.mob==='genCenter'));
+  }
+}).observe($('bc'),{attributes:true,attributeFilter:['style']});
+
+// Touch pan + pinch zoom on canvas
+(function(){
+  const cw=$('cw');
+  let lastDist=0,lastTX=0,lastTY=0,touching=false;
+  cw.addEventListener('touchstart',e=>{
+    if(e.touches.length===2){
+      touching=true;
+      lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    }else if(e.touches.length===1){
+      touching=true;S.isDrag=true;
+      lastTX=e.touches[0].clientX;lastTY=e.touches[0].clientY;
+    }
+  },{passive:true});
+  cw.addEventListener('touchmove',e=>{
+    e.preventDefault();
+    if(e.touches.length===2){
+      const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      if(lastDist>0){S.zoom=Math.min(10,Math.max(.15,S.zoom*(dist/lastDist)));}
+      lastDist=dist;applyT();
+    }else if(e.touches.length===1&&S.isDrag){
+      S.panX+=e.touches[0].clientX-lastTX;S.panY+=e.touches[0].clientY-lastTY;
+      lastTX=e.touches[0].clientX;lastTY=e.touches[0].clientY;applyT();
+    }
+  },{passive:false});
+  cw.addEventListener('touchend',()=>{touching=false;S.isDrag=false;lastDist=0;});
+})();
+
+// Init on load
+window.addEventListener('resize',initMobTabs);
+setTimeout(initMobTabs,200);
+
 // ── UTILS ──
 function setStatus(msg,st){$('st2').textContent=msg;$('sd').className='sdot'+(st?' '+st:'');}
 let tTimer;function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tTimer);tTimer=setTimeout(()=>t.classList.remove('show'),2200);}
