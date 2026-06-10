@@ -618,6 +618,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .msg-badge.show{display:flex;}
 .msg-nav-btn{position:relative;}
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
@@ -2142,7 +2143,8 @@ async function doExpList(){
   border:1.5px solid var(--white);font-family:var(--fb);}
 .msg-badge.show{display:flex;}
 .msg-nav-btn{position:relative;}
-</style></head><body><h2>BeadStudio 备料清单</h2><p>${S.brand} | ${S.gridW}×${S.gridH} | ${total}颗</p><table><tr><th>色块</th>${hdrs.map(h=>`<th>${h}</th>`).join('')}</tr>${trs}</table></body></html>`,'application/msword',fn+'.doc');}
+</style><script defer src="/_vercel/insights/script.js"></script>
+</head><body><h2>BeadStudio 备料清单</h2><p>${S.brand} | ${S.gridW}×${S.gridH} | ${total}颗</p><table><tr><th>色块</th>${hdrs.map(h=>`<th>${h}</th>`).join('')}</tr>${trs}</table></body></html>`,'application/msword',fn+'.doc');}
 }
 function dlBlob(c,t,n){const b=new Blob([c],{type:t});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;a.click();}
 
