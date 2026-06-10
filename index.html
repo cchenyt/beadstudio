@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>拼豆图纸生成器 ✦ BeadStudio v3</title>
+<title>cc'BeadStudio ✦ 拼豆图纸生成器</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -253,7 +253,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .editor-wrap{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;
   background:#e8e0f0;position:relative;cursor:crosshair;}
 #editCanvas{border:var(--bd);box-shadow:var(--sh);}
-#editOverlay{position:absolute;pointer-events:none;}
+#editOverlay{position:absolute;pointer-events:none;touch-action:none;}
 .modal-foot{display:flex;align-items:center;gap:7px;padding:9px 14px;border-top:var(--bd);background:var(--white);flex-shrink:0;}
 
 /* Toast */
@@ -284,7 +284,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .etb-sep{width:48px;height:1px;background:#e0dcea;margin:3px 0;}
 .ed-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .ed-cw{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;
-  background:repeating-conic-gradient(#ccc 0% 25%,#eee 0% 50%) 0 0/16px 16px;position:relative;}
+  background:repeating-conic-gradient(#ccc 0% 25%,#eee 0% 50%) 0 0/16px 16px;position:relative;touch-action:none;}
 #editCanvas{display:block;border:2px solid #888;}
 #editOverlay{position:absolute;pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%);}
 .ed-opts{padding:7px 12px;border-top:var(--bd);background:var(--white);
@@ -321,7 +321,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .etb-sep{width:48px;height:1px;background:#e0dcea;margin:3px 0;}
 .ed-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .ed-cw{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;
-  background:repeating-conic-gradient(#ccc 0% 25%,#eee 0% 50%) 0 0/16px 16px;position:relative;}
+  background:repeating-conic-gradient(#ccc 0% 25%,#eee 0% 50%) 0 0/16px 16px;position:relative;touch-action:none;}
 #editCanvas{display:block;border:2px solid #888;}
 #editOverlay{position:absolute;pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%);}
 .ed-opts{padding:7px 12px;border-top:var(--bd);background:var(--white);
@@ -610,6 +610,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 
 }
 
+
+.msg-badge{position:absolute;top:-4px;right:-4px;background:#FF4444;color:#fff;
+  border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;
+  display:none;align-items:center;justify-content:center;
+  border:1.5px solid var(--white);font-family:var(--fb);}
+.msg-badge.show{display:flex;}
+.msg-nav-btn{position:relative;}
 </style>
 </head>
 <body>
@@ -642,7 +649,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
     <button class="ntab" data-view="libView">☆ 色卡库</button>
     <button class="ntab" data-view="histView">◎ 历史记录</button>
     <button class="ntab ntab-plan" data-view="planView">⬚ 豆板规划</button>
-    <button class="msg-nav-btn" id="msgBoardNavBtn">💌 留言板</button>
+    <button class="msg-nav-btn" id="msgBoardNavBtn">💌 留言板<span class="msg-badge" id="msgBadge">0</span></button>
     <div class="user-badge" id="userBadge" onclick="toggleUserMenu(this)" style="display:none">
       <span id="userBadgeAv">🐱</span><span id="userBadgeNm">用户</span>
     </div>
@@ -1802,7 +1809,7 @@ async function doExpList(){
 .etb-sep{width:48px;height:1px;background:#e0dcea;margin:3px 0;}
 .ed-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .ed-cw{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;
-  background:repeating-conic-gradient(#ccc 0% 25%,#eee 0% 50%) 0 0/16px 16px;position:relative;}
+  background:repeating-conic-gradient(#ccc 0% 25%,#eee 0% 50%) 0 0/16px 16px;position:relative;touch-action:none;}
 #editCanvas{display:block;border:2px solid #888;}
 #editOverlay{position:absolute;pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%);}
 .ed-opts{padding:7px 12px;border-top:var(--bd);background:var(--white);
@@ -1839,7 +1846,7 @@ async function doExpList(){
 .etb-sep{width:48px;height:1px;background:#e0dcea;margin:3px 0;}
 .ed-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .ed-cw{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;
-  background:repeating-conic-gradient(#ccc 0% 25%,#eee 0% 50%) 0 0/16px 16px;position:relative;}
+  background:repeating-conic-gradient(#ccc 0% 25%,#eee 0% 50%) 0 0/16px 16px;position:relative;touch-action:none;}
 #editCanvas{display:block;border:2px solid #888;}
 #editOverlay{position:absolute;pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%);}
 .ed-opts{padding:7px 12px;border-top:var(--bd);background:var(--white);
@@ -2128,6 +2135,13 @@ async function doExpList(){
 
 }
 
+
+.msg-badge{position:absolute;top:-4px;right:-4px;background:#FF4444;color:#fff;
+  border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;
+  display:none;align-items:center;justify-content:center;
+  border:1.5px solid var(--white);font-family:var(--fb);}
+.msg-badge.show{display:flex;}
+.msg-nav-btn{position:relative;}
 </style></head><body><h2>BeadStudio 备料清单</h2><p>${S.brand} | ${S.gridW}×${S.gridH} | ${total}颗</p><table><tr><th>色块</th>${hdrs.map(h=>`<th>${h}</th>`).join('')}</tr>${trs}</table></body></html>`,'application/msword',fn+'.doc');}
 }
 function dlBlob(c,t,n){const b=new Blob([c],{type:t});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;a.click();}
@@ -2642,6 +2656,7 @@ function openED(){
     const ov=$('editOverlay');ov.width=ec.width;ov.height=ec.height;
     ov.style.width=ec.style.width;ov.style.height=ec.style.height;
     ED.sc=sc;ED.hist=[];ED.future=[];ED.selMask=null;ED.lasso=[];
+    initEditorTouch(); // enable touch events
     ED.origData=ec.getContext('2d').getImageData(0,0,ec.width,ec.height);
     ED.baseData=ED.origData;
     Object.keys(ED.adj).forEach(k=>ED.adj[k]=0);
@@ -2977,14 +2992,21 @@ function emptyTrash(){
 // 2. Add QQ Mail (or Gmail) service, create template with {{message}} and {{timestamp}}
 // 3. Set To Email to yitingcc66@qq.com in the template
 // 3. Replace the values below
-const EJS={pub:'YOUR_PUBLIC_KEY',svc:'YOUR_SERVICE_ID',tpl:'YOUR_TEMPLATE_ID'};
+const EJS={pub:'-o6yvO9_jhP9CdHW-',svc:'service_v2c6cwr',tpl:'template_79triqz'};
+const SB={url:'https://nngwqcbbnwvlrnbamvfi.supabase.co',key:'sb_publishable_OOtxihdCAUXJGt5TBJ_ZVQ_GEzZ_BkW'};
 let ejsLoaded=false;
 
 function getMsgs(){try{return JSON.parse(localStorage.getItem('bead_msgs')||'[]');}catch{return[];}}
 function saveMsgs(m){try{localStorage.setItem('bead_msgs',JSON.stringify(m.slice(0,200)));}catch{}}
 
 $('msgBoardNavBtn').addEventListener('click',()=>{
-  $('msgModal').classList.add('show');renderMsgs();
+  $('msgModal').classList.add('show');
+  // Mark all replies as read
+  const msgs=getMsgs();
+  msgs.forEach(m=>{if(m.reply)m.replyRead=true;});
+  saveMsgs(msgs);
+  updateMsgBadge(0);
+  renderMsgs();
 });
 $('msgInput').addEventListener('input',()=>{
   $('msgCharCount').textContent=$('msgInput').value.length+' / 500';
@@ -3017,6 +3039,39 @@ async function sendMsg(){
   showToast(toasts[Math.floor(Math.random()*toasts.length)]);
 }
 
+function updateMsgBadge(n){
+  const b=$('msgBadge');if(!b)return;
+  if(n>0){b.textContent=n>9?'9+':n;b.classList.add('show');}
+  else b.classList.remove('show');
+}
+
+async function fetchReplies(){
+  try{
+    const msgs=getMsgs();if(!msgs.length)return;
+    const ids=msgs.map(m=>m.id).join(',');
+    const res=await fetch(`${SB.url}/rest/v1/replies?msg_id=in.(${ids})&select=msg_id,reply_text,created_at`,{
+      headers:{'apikey':SB.key,'Authorization':'Bearer '+SB.key}
+    });
+    if(!res.ok)return;
+    const rows=await res.json();
+    if(!rows.length)return;
+    let changed=false;
+    rows.forEach(row=>{
+      const msg=msgs.find(m=>String(m.id)===String(row.msg_id));
+      if(msg&&!msg.reply){
+        msg.reply={text:row.reply_text,at:new Date(row.created_at).toLocaleString('zh-CN')};
+        changed=true;
+      }
+    });
+    if(changed){
+      saveMsgs(msgs);renderMsgs();
+      // Count unread replies (replies received since last open)
+      const unread=msgs.filter(m=>m.reply&&!m.replyRead).length;
+      updateMsgBadge(unread);
+    }
+  }catch(e){console.log('Supabase fetch failed:',e.message);}
+}
+
 function renderMsgs(){
   const msgs=getMsgs();
   const list=$('msgList');
@@ -3024,14 +3079,12 @@ function renderMsgs(){
   if(!msgs.length){list.innerHTML='<div id="msgEmpty" style="font-family:var(--fp);font-size:9px;color:var(--light);text-align:center;margin-top:40px;line-height:2.5">还没有留言<br>说点什么吧 ♡</div>';return;}
   msgs.forEach(m=>{
     const wrap=document.createElement('div');wrap.style.cssText='display:flex;flex-direction:column;gap:4px;';
-    // User message
     const bub=document.createElement('div');bub.style.cssText='display:flex;flex-direction:column;align-items:flex-end;gap:2px;';
     bub.innerHTML=`<div class="msg-bubble">${m.text.replace(/</g,'&lt;')}</div>
       <div class="msg-time">${m.sentAt} · <span class="msg-status${m.reply?' replied':''}">
         ${m.reply?'✓ 已回复':'等待回复中...'}
       </span></div>`;
     wrap.appendChild(bub);
-    // Reply if exists
     if(m.reply){
       const rbub=document.createElement('div');rbub.style.cssText='display:flex;flex-direction:column;align-items:flex-start;gap:2px;';
       rbub.innerHTML=`<div style="font-size:9px;font-weight:700;color:var(--mid);padding-left:4px">💌 设计者回复</div>
@@ -3040,10 +3093,11 @@ function renderMsgs(){
       wrap.appendChild(rbub);
     }
     list.appendChild(wrap);
-    // Separator
     const sep=document.createElement('div');sep.style.cssText='height:1px;background:rgba(0,0,0,.07);margin:2px 0;';
     list.appendChild(sep);
   });
+  // Auto-fetch replies from Supabase
+  fetchReplies();
 }
 
 // Check for replies on load (owner updates via URL param ?bsreply=ID:reply_text)
@@ -3255,6 +3309,13 @@ $('importFile').addEventListener('change',e=>{
   };r.readAsText(f);
 });
 
+// Check unread reply badge on load
+setTimeout(()=>{
+  const msgs=getMsgs();
+  const unread=msgs.filter(m=>m.reply&&!m.replyRead).length;
+  if(unread>0)updateMsgBadge(unread);
+},500);
+
 // Initialize: show account overlay after splash
 window.addEventListener('load',()=>{
   // Wait for splash to finish showing before checking account
@@ -3344,6 +3405,50 @@ new MutationObserver(()=>{
 // Init on load
 window.addEventListener('resize',initMobTabs);
 setTimeout(initMobTabs,200);
+
+
+// ── EDITOR TOUCH SUPPORT ──
+let edTouchInited=false;
+function initEditorTouch(){
+  if(edTouchInited)return;
+  edTouchInited=true;
+  const ov=$('editOverlay');
+  let lastTap=0,pinchDist=0;
+  ov.addEventListener('touchstart',e=>{
+    if(e.touches.length===2){
+      // Pinch zoom
+      pinchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      return;
+    }
+    e.preventDefault();
+    const t=e.touches[0];
+    ov.dispatchEvent(new MouseEvent('mousedown',{bubbles:true,cancelable:true,clientX:t.clientX,clientY:t.clientY}));
+  },{passive:false});
+  ov.addEventListener('touchmove',e=>{
+    if(e.touches.length===2){
+      e.preventDefault();
+      const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      if(pinchDist>0)edZ(d/pinchDist);
+      pinchDist=d;return;
+    }
+    e.preventDefault();
+    const t=e.touches[0];
+    ov.dispatchEvent(new MouseEvent('mousemove',{bubbles:true,cancelable:true,clientX:t.clientX,clientY:t.clientY}));
+  },{passive:false});
+  ov.addEventListener('touchend',e=>{
+    e.preventDefault();
+    pinchDist=0;
+    const t=e.changedTouches[0];
+    const cx=t?t.clientX:0,cy=t?t.clientY:0;
+    const now=Date.now();
+    ov.dispatchEvent(new MouseEvent('mouseup',{bubbles:true,cancelable:true,clientX:cx,clientY:cy}));
+    ov.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,clientX:cx,clientY:cy}));
+    if(now-lastTap<320){
+      ov.dispatchEvent(new MouseEvent('dblclick',{bubbles:true,cancelable:true,clientX:cx,clientY:cy}));
+    }
+    lastTap=now;
+  },{passive:false});
+}
 
 // ── UTILS ──
 function setStatus(msg,st){$('st2').textContent=msg;$('sd').className='sdot'+(st?' '+st:'');}
